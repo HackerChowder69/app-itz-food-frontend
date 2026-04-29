@@ -1,3 +1,6 @@
+# Variables de ambiente
+.env
+
 # Logs
 logs
 *.log
@@ -11,12 +14,15 @@ node_modules
 dist
 dist-ssr
 *.local
+certs/*
+!certs/.gitkeep
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
 .idea
 .DS_Store
+src/.DS_Store
 *.suo
 *.ntvs*
 *.njsproj

@@ -1,21 +1,23 @@
-# React + TypeScript + Vite + shadcn/ui
+# app-itz-food-frontend
 
-This is a template for a new Vite project with React, TypeScript, and shadcn/ui.
+Frontend de FoodApp para la actividad 4.1.
 
-## Adding components
-
-To add components to your app, run the following command:
+## Scripts
 
 ```bash
-npx shadcn@latest add button
+npm run dev
+npm run build
+npm run preview
 ```
 
-This will place the ui components in the `src/components` directory.
+## Variables de entorno
 
-## Using components
+Usa `.env.example` como base.
 
-To use the components in your app, import them as follows:
+- `VITE_API_BASE_URL`: URL del backend.
+- `VITE_AUTH0_DOMAIN`: dominio de Auth0.
+- `VITE_AUTH0_CLIENT_ID`: cliente de Auth0.
+- `VITE_AUTH0_AUDIENCE`: audiencia/API configurada en Auth0.
+- `VITE_AUTH0_CALLBACK_URL`: callback permitido para Auth0.
 
-```tsx
-import { Button } from "@/components/ui/button"
-```
+Si las variables de Auth0 quedan vacias, la app arranca en modo local para poder revisar la interfaz sin login real.
