@@ -21,3 +21,7 @@ Usa `.env.example` como base.
 - `VITE_AUTH0_CALLBACK_URL`: callback permitido para Auth0.
 
 Si las variables de Auth0 quedan vacias, la app arranca en modo local para poder revisar la interfaz sin login real.
+
+## Despliegue
+
+Este repo incluye `render.yaml` y una guia en `DEPLOYMENT.md` para publicarlo como Static Site en Render.
