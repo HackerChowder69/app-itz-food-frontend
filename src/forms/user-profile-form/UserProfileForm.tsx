@@ -106,24 +106,27 @@ function UserProfileForm({
 
   return (
     <form id="user-profile-form" onSubmit={handleSubmit} className="grid gap-6">
-      <Card>
-        <CardHeader>
-          <CardTitle>Perfil de usuario</CardTitle>
+      <Card className="mx-auto max-w-[860px] overflow-hidden bg-slate-50">
+        <CardHeader className="p-6 pb-3">
+          <CardTitle className="text-base font-bold text-slate-950">
+            Perfil del usuario
+          </CardTitle>
           <CardDescription>
-            Completa tus datos para sincronizar el perfil protegido del frontend
-            con MongoDB.
+            Consulta y cambia la información de tu perfil aquí.
           </CardDescription>
         </CardHeader>
 
-        <CardContent>
+        <CardContent className="space-y-4 px-6 pb-4">
           <FieldGroup>
             <Field>
-              <FieldLabel htmlFor="email">Email</FieldLabel>
+              <FieldLabel htmlFor="email" className="text-xs font-bold text-slate-900">
+                Email
+              </FieldLabel>
               <Input
                 id="email"
                 type="email"
                 disabled
-                placeholder="correo@ejemplo.com"
+                placeholder="Teclea tu email"
                 value={formData.email ?? ""}
                 onChange={(event) => handleChange("email", event.target.value)}
               />
@@ -133,10 +136,12 @@ function UserProfileForm({
 
           <FieldGroup>
             <Field>
-              <FieldLabel htmlFor="name">Nombre</FieldLabel>
+              <FieldLabel htmlFor="name" className="text-xs font-bold text-slate-900">
+                Nombre
+              </FieldLabel>
               <Input
                 id="name"
-                placeholder="Escribe tu nombre completo"
+                placeholder="Teclea tu nombre"
                 value={formData.name}
                 onChange={(event) => handleChange("name", event.target.value)}
               />
@@ -144,10 +149,12 @@ function UserProfileForm({
             </Field>
           </FieldGroup>
 
-          <div className="flex flex-col gap-4 md:flex-row">
+          <div className="grid gap-4 md:grid-cols-3">
             <FieldGroup className="flex-1">
               <Field className="flex-1">
-                <FieldLabel htmlFor="address">Direccion</FieldLabel>
+                <FieldLabel htmlFor="address" className="text-xs font-bold text-slate-900">
+                  Dirección
+                </FieldLabel>
                 <Input
                   id="address"
                   placeholder="Calle, numero y colonia"
@@ -160,7 +167,9 @@ function UserProfileForm({
 
             <FieldGroup className="flex-1">
               <Field className="flex-1">
-                <FieldLabel htmlFor="city">Ciudad</FieldLabel>
+                <FieldLabel htmlFor="city" className="text-xs font-bold text-slate-900">
+                  Ciudad
+                </FieldLabel>
                 <Input
                   id="city"
                   placeholder="Ciudad o municipio"
@@ -173,7 +182,9 @@ function UserProfileForm({
 
             <FieldGroup className="flex-1">
               <Field className="flex-1">
-                <FieldLabel htmlFor="country">Pais</FieldLabel>
+                <FieldLabel htmlFor="country" className="text-xs font-bold text-slate-900">
+                  País
+                </FieldLabel>
                 <Input
                   id="country"
                   placeholder="Pais"
@@ -186,14 +197,14 @@ function UserProfileForm({
           </div>
         </CardContent>
 
-        <CardFooter className="justify-end">
+        <CardFooter className="justify-start px-6 pb-6">
           <Field>
             {isLoading ? (
               <LoadingButton label="Actualizando..." />
             ) : (
               <Button
                 type="submit"
-                className="h-10 rounded-md bg-orange-500 px-4 text-white hover:bg-orange-600"
+                className="h-9 rounded-md bg-orange-500 px-4 text-sm font-bold text-white hover:bg-orange-600"
               >
                 Actualizar
               </Button>

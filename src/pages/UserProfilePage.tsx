@@ -40,8 +40,8 @@ function UserProfilePage() {
 
   if (!isAuthConfigured) {
     return (
-      <section className="mx-auto max-w-3xl rounded-[2rem] border border-amber-200 bg-amber-50 p-8 shadow-xl shadow-amber-100/40">
-        <h1 className="text-3xl font-semibold text-amber-900">
+      <section className="mx-auto max-w-[860px] rounded-lg border bg-amber-50 p-6">
+        <h1 className="text-xl font-bold text-amber-900">
           Auth0 pendiente de configuracion
         </h1>
         <p className="mt-3 text-sm text-amber-800">{authSetupMessage}</p>
@@ -51,8 +51,8 @@ function UserProfilePage() {
 
   if (!isAuthenticated) {
     return (
-      <section className="mx-auto max-w-3xl rounded-[2rem] border border-orange-100 bg-white p-8 shadow-xl shadow-orange-100/40">
-        <h1 className="text-3xl font-semibold text-slate-900">
+      <section className="mx-auto max-w-[860px] rounded-lg border bg-slate-50 p-6">
+        <h1 className="text-xl font-bold text-slate-900">
           Perfil de usuario
         </h1>
         <p className="mt-3 text-sm text-slate-600">
@@ -60,7 +60,7 @@ function UserProfilePage() {
           el backend.
         </p>
         <Button
-          className="mt-6 bg-orange-500 text-white hover:bg-orange-600"
+          className="mt-6 h-9 rounded-md bg-orange-500 px-4 text-white hover:bg-orange-600"
           onClick={() => void loginWithRedirect()}
         >
           Iniciar sesion
@@ -70,29 +70,7 @@ function UserProfilePage() {
   }
 
   return (
-    <section className="space-y-8">
-      <div className="rounded-lg border bg-white p-6">
-        <h1 className="text-3xl font-semibold text-slate-900">
-          Perfil de usuario
-        </h1>
-        <p className="mt-2 text-sm text-slate-600">
-          Aqui puedes consultar y actualizar los datos del usuario autenticado.
-        </p>
-
-        <div className="mt-6 grid gap-4 md:grid-cols-2">
-          <div className="rounded-md border bg-slate-50 p-4 text-sm text-slate-600">
-            <p className="font-medium text-slate-900">Correo</p>
-            <p className="mt-1">{currentUser?.email ?? user?.email ?? "Sin correo"}</p>
-          </div>
-          <div className="rounded-md border bg-slate-50 p-4 text-sm text-slate-600">
-            <p className="font-medium text-slate-900">Auth0 ID</p>
-            <p className="mt-1 break-all text-xs">
-              {currentUser?.auth0Id ?? user?.sub ?? "Sin identificador"}
-            </p>
-          </div>
-        </div>
-      </div>
-
+    <section className="py-4">
       <UserProfileForm
         key={currentUser?._id ?? user?.sub ?? "profile-form"}
         currentUser={currentUser}

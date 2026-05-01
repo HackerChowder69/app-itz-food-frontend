@@ -5,8 +5,8 @@ import MobileNav from "@/components/MobileNav"
 
 function Header() {
   return (
-    <header className="border-b bg-white">
-      <div className="container mx-auto flex items-center justify-between px-4 py-4">
+    <header className="bg-white">
+      <div className="mx-auto flex w-full max-w-[960px] items-center justify-between border-b-2 border-orange-500 px-4 py-5">
         <Link
           to="/"
           className="text-2xl font-bold text-orange-500"
