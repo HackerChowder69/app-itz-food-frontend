@@ -40,6 +40,12 @@ function MainNav() {
           {user?.email}
         </span>
         <Link
+          to="/order-status"
+          className="text-sm font-semibold text-slate-700 hover:text-orange-500"
+        >
+          Mis ordenes
+        </Link>
+        <Link
           to="/user-profile"
           className="text-sm font-semibold text-slate-700 hover:text-orange-500"
         >

@@ -1,6 +1,6 @@
 import type { ReactNode } from "react"
 
-import { Auth0Provider, useAuth0 } from "@auth0/auth0-react"
+import { Auth0Provider, useAuth0, type AppState } from "@auth0/auth0-react"
 import { useNavigate } from "react-router"
 
 import { AppAuthContext, disabledAuthValue } from "@/auth/useAppAuth"
@@ -32,7 +32,7 @@ function AuthContextBridge({ children }: Props) {
         isAuthenticated,
         isAuthConfigured: true,
         isLoading,
-        loginWithRedirect: () => loginWithRedirect(),
+        loginWithRedirect: (options) => loginWithRedirect(options),
         logout: async () => {
           await logout({
             logoutParams: {
@@ -65,14 +65,15 @@ export default function Auth0ProviderWithNavigate({ children }: Props) {
     )
   }
 
-  const onRedirectCallBack = () => {
-    navigate("/auth-callback")
+  const onRedirectCallBack = (appState?: AppState) => {
+    navigate(appState?.returnTo || "/auth-callback")
   }
 
   return (
     <Auth0Provider
       domain={auth0Config.domain}
       clientId={auth0Config.clientId}
+      cacheLocation="localstorage"
       authorizationParams={{
         audience: auth0Config.audience,
         redirect_uri: auth0Config.redirectUri,

@@ -25,6 +25,11 @@ function MobileNav() {
     navigate("/user-profile")
   }
 
+  const goToOrders = () => {
+    setOpen(false)
+    navigate("/order-status")
+  }
+
   const handleLogin = async () => {
     setOpen(false)
     await loginWithRedirect()
@@ -63,6 +68,13 @@ function MobileNav() {
                 <p className="font-medium text-slate-900">Sesion activa</p>
                 <p className="truncate text-xs text-slate-500">{user?.email}</p>
               </div>
+              <button
+                type="button"
+                onClick={goToOrders}
+                className="flex h-10 items-center justify-center rounded-md border border-orange-200 bg-white text-sm font-medium text-slate-800 transition hover:bg-orange-50"
+              >
+                Mis ordenes
+              </button>
               <button
                 type="button"
                 onClick={goToProfile}

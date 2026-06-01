@@ -1,5 +1,7 @@
 import { createContext, useContext } from "react"
 
+import type { AppState, RedirectLoginOptions } from "@auth0/auth0-react"
+
 import { authSetupMessage } from "@/config/env"
 
 export type AuthUser = {
@@ -14,7 +16,9 @@ export type AppAuthContextValue = {
   isAuthenticated: boolean
   isAuthConfigured: boolean
   isLoading: boolean
-  loginWithRedirect: () => Promise<void>
+  loginWithRedirect: (
+    options?: RedirectLoginOptions<AppState>
+  ) => Promise<void>
   logout: () => Promise<void>
   user?: AuthUser
 }

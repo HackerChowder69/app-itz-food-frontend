@@ -29,7 +29,7 @@ const formSchema = z.object({
     .min(3, "El nombre debe tener al menos 3 caracteres."),
 });
 
-type UserFormData = z.infer<typeof formSchema>;
+export type UserFormData = z.infer<typeof formSchema>;
 type FormField = keyof UserFormData;
 type FormErrors = Partial<Record<FormField, string>>;
 
@@ -37,6 +37,8 @@ type UserProfileFormProps = {
   currentUser?: BackEndUser;
   isLoading?: boolean;
   onSave: (userProfileData: UpdateUser) => Promise<unknown>;
+  submitLabel?: string;
+  loadingLabel?: string;
 };
 
 const getDefaultValues = (currentUser?: BackEndUser): UserFormData => ({
@@ -50,7 +52,9 @@ const getDefaultValues = (currentUser?: BackEndUser): UserFormData => ({
 function UserProfileForm({
   currentUser,
   isLoading = false,
+  loadingLabel = "Actualizando...",
   onSave,
+  submitLabel = "Actualizar",
 }: UserProfileFormProps) {
   const [formData, setFormData] = useState<UserFormData>(
     getDefaultValues(currentUser)
@@ -200,13 +204,13 @@ function UserProfileForm({
         <CardFooter className="justify-start px-6 pb-6">
           <Field>
             {isLoading ? (
-              <LoadingButton label="Actualizando..." />
+              <LoadingButton label={loadingLabel} />
             ) : (
               <Button
                 type="submit"
                 className="h-9 rounded-md bg-orange-500 px-4 text-sm font-bold text-white hover:bg-orange-600"
               >
-                Actualizar
+                {submitLabel}
               </Button>
             )}
           </Field>
