@@ -19,7 +19,11 @@ export default function AuthCallBackPage() {
       }
 
       hasCreatedUser.current = true;
-      await mutateAsync({ auth0Id: user.sub, email: user.email });
+      await mutateAsync({
+        auth0Id: user.sub,
+        email: user.email,
+        name: user.name,
+      });
       navigate("/");
     };
 

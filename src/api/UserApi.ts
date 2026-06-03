@@ -8,12 +8,31 @@ import type { BackEndUser, UpdateUser, User } from "./types";
 
 const buildApiUrl = (path: string) => `${apiBaseUrl}${path}`;
 
+type CreateUserRequest = Pick<User, "auth0Id" | "email"> & {
+  name?: string;
+};
+
+const getApiErrorMessage = async (response: Response, fallback: string) => {
+  const contentType = response.headers.get("content-type") ?? "";
+
+  if (contentType.includes("application/json")) {
+    const data = (await response.json().catch(() => undefined)) as
+      | { message?: string }
+      | undefined;
+
+    return data?.message || fallback;
+  }
+
+  const text = await response.text().catch(() => "");
+  return text || fallback;
+};
+
 export function useCreateUser() {
   const { getAccessTokenSilently, isAuthConfigured } = useAppAuth();
   const queryClient = useQueryClient();
 
-  return useMutation<User, Error, Pick<User, "auth0Id" | "email">>({
-    mutationFn: async (user: Pick<User, "auth0Id" | "email">) => {
+  return useMutation<User, Error, CreateUserRequest>({
+    mutationFn: async (user) => {
       if (!isAuthConfigured) {
         throw new Error(authSetupMessage);
       }
@@ -29,7 +48,9 @@ export function useCreateUser() {
       });
 
       if (!response.ok) {
-        throw new Error("Error al crear el usuario");
+        throw new Error(
+          await getApiErrorMessage(response, "Error al crear el usuario")
+        );
       }
 
       return (await response.json()) as User;
@@ -58,12 +79,15 @@ export function useGetUser() {
       });
 
       if (!response.ok) {
-        throw new Error("No se pudo recuperar el perfil");
+        throw new Error(
+          await getApiErrorMessage(response, "No se pudo recuperar el perfil")
+        );
       }
 
       return (await response.json()) as BackEndUser;
     },
     queryKey: ["currentUser"],
+    retry: false,
   });
 }
 
@@ -88,7 +112,9 @@ export function useUpdateUser() {
       });
 
       if (!response.ok) {
-        throw new Error("No se pudo actualizar el perfil");
+        throw new Error(
+          await getApiErrorMessage(response, "No se pudo actualizar el perfil")
+        );
       }
 
       return (await response.json()) as BackEndUser;

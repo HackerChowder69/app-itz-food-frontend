@@ -35,7 +35,13 @@ function CheckOutButton({
     isLoading: isAuthLoading,
     loginWithRedirect,
   } = useAppAuth();
-  const { data: getUser, isLoading: isGetUserLoading } = useGetUser();
+  const {
+    data: getUser,
+    error: getUserError,
+    isError: hasGetUserError,
+    isLoading: isGetUserLoading,
+    refetch: refetchUser,
+  } = useGetUser();
 
   const handleLogin = async () => {
     await loginWithRedirect({
@@ -74,9 +80,27 @@ function CheckOutButton({
     );
   }
 
-  if (isGetUserLoading || !getUser) {
+  if (isGetUserLoading) {
     return (
       <LoadingButton className="w-full" label="Cargando perfil..." />
+    );
+  }
+
+  if (hasGetUserError || !getUser) {
+    return (
+      <div className="space-y-3 rounded-md border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+        <p>
+          {getUserError?.message ||
+            "No se pudo cargar tu perfil para confirmar la compra."}
+        </p>
+        <Button
+          className="w-full bg-orange-500 text-white hover:bg-orange-600"
+          onClick={() => void refetchUser()}
+          type="button"
+        >
+          Reintentar perfil
+        </Button>
+      </div>
     );
   }
 

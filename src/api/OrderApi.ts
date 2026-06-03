@@ -19,6 +19,21 @@ type CreateCheckoutSessionResponse = {
 
 const buildApiUrl = (path: string) => `${apiBaseUrl}${path}`;
 
+const getApiErrorMessage = async (response: Response, fallback: string) => {
+  const contentType = response.headers.get("content-type") ?? "";
+
+  if (contentType.includes("application/json")) {
+    const data = (await response.json().catch(() => undefined)) as
+      | { message?: string }
+      | undefined;
+
+    return data?.message || fallback;
+  }
+
+  const text = await response.text().catch(() => "");
+  return text || fallback;
+};
+
 export function useCreateCheckoutSession() {
   const { getAccessTokenSilently, isAuthConfigured } = useAppAuth();
   const queryClient = useQueryClient();
@@ -47,11 +62,9 @@ export function useCreateCheckoutSession() {
       );
 
       if (!response.ok) {
-        const data = (await response.json().catch(() => undefined)) as
-          | { message?: string }
-          | undefined;
-
-        throw new Error(data?.message || "No se pudo crear la orden");
+        throw new Error(
+          await getApiErrorMessage(response, "No se pudo crear la orden")
+        );
       }
 
       return (await response.json()) as CreateCheckoutSessionResponse;
@@ -80,12 +93,15 @@ export function useGetOrders() {
       });
 
       if (!response.ok) {
-        throw new Error("No se pudieron obtener las ordenes");
+        throw new Error(
+          await getApiErrorMessage(response, "No se pudieron obtener las ordenes")
+        );
       }
 
       return (await response.json()) as Order[];
     },
     queryKey: ["orders"],
+    retry: false,
   });
 }
 
@@ -104,11 +120,17 @@ export function useGetRestaurantOrders() {
       });
 
       if (!response.ok) {
-        throw new Error("No se pudieron obtener las ordenes del restaurante");
+        throw new Error(
+          await getApiErrorMessage(
+            response,
+            "No se pudieron obtener las ordenes del restaurante"
+          )
+        );
       }
 
       return (await response.json()) as Order[];
     },
     queryKey: ["restaurantOrders"],
+    retry: false,
   });
 }
